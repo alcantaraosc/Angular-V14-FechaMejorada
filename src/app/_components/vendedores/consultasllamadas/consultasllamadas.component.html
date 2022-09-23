@@ -1,0 +1,244 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Consulta de Llamada de Vendedores</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <mat-card>
+          <mat-card-content>
+
+            <!--datos del cliente y datos del contactos-->
+            <div class="row">
+              <!--datos del cliente-->
+              <div class="col-md-6">
+                <mat-card style="background-color:lightsteelblue;">
+                  <p style="text-align: center;"> <b>Datos del Cliente</b></p>
+                  <div class="row">
+
+                    <!--vendedores-->
+                    <div class="col" [formGroup]="formGroupListVendedor">
+
+                      <mat-form-field appearance="standard" style="width: 100%;">
+                        <mat-label>*Vendedor</mat-label>
+                        <mat-select formControlName="vendedorID" (selectionChange)="onSeleccionarVendedor($event)">
+                          <mat-option>Seleccione Vendedor</mat-option>
+                          <ng-container *ngFor="let vendedor of listVendedores">
+                            <mat-option value="{{vendedor.vendedorID}}"> {{vendedor.nombreVendedor}}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field>
+
+                    </div>
+
+                    <!--boton buscar llamadas -->
+                    <div class="col">
+                      <button mat-raised-button style="color:#3f51b5; top:10px;" title="buscar las llamadas"
+                        (click)="onBuscarLlamadasVendedor()">
+                        <!--<mat-icon  style="color:#3f51b5;">add</mat-icon>-->
+                        <mat-icon style="color:#3f51b5;">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                          </svg>
+                        </mat-icon>
+                        Buscar
+                      </button>
+                    </div>
+
+                  </div>
+
+                  <div>
+                    <p> </p>
+                  </div>
+
+
+
+                  <div class="row">
+                    <div class="col">
+
+                      <!--<dt>Cliente ID:</dt> <dd>                   </dd>-->
+                      <p><b>Clientes ID: </b>{{ clienteID }} </p>
+                    </div>
+
+                    <div class="col">
+                      <p><b>Tipo Cliente: </b> {{ tipoCliente }}</p>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <p><b>Cliente: </b> {{ cliente }}</p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <p><b>Telefono Oficina: </b> {{ telefono }}</p>
+                    </div>
+
+                    <div class="col">
+                      <p><b>Telefono Habit: </b> {{ telefonoHabit }}</p>
+                    </div>
+
+                    <div class="col">
+                      <p><b>Celular: </b> {{ celular }}</p>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <p><b> E-mail: </b> {{ email }}</p>
+                    </div>
+
+                  </div>
+
+
+                </mat-card>
+              </div>
+
+              <!--datos del contacto-->
+              <div class="col-md-6">
+                <mat-card style="background-color:lightsteelblue;">
+                  <p style="text-align: center;"> <b>Datos del Contacto de la Oportunidad Seleccionada</b></p>
+
+                  <div class="row">
+                    <div class="col">
+                      <p><b>Contacto: </b> {{ nombreContato }}</p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <p><b>E-mail: </b> {{ emailContacto }}</p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <p><b>Celular: </b> {{ celularContacto }}</p>
+                    </div>
+
+                    <div class="col">
+                      <p><b>Telefono: </b> {{ telefonoContacto }}</p>
+                    </div>
+
+                  </div>
+
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+
+                </mat-card>
+              </div>
+            </div>
+
+            <br>
+
+
+            <!-- -->
+            <div class="row">
+              <div class="col">
+
+                <h4 style="background-color: #707e2e5c"> {{ cantidadOportunidad }} Oportunidad(es)</h4>
+
+                <button mat-raised-button color="primary" title="agregar comentario del vendedor">
+                  <!-- (click)="onNuevaLlamadaVendedor()" [disabled]="estadoBotonComentVendInput">-->
+                  <mat-icon>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                    </svg>
+                  </mat-icon>
+                  Agregar
+                </button>
+              </div>
+
+              <div class="col">
+
+              </div>
+            </div>
+
+            <!--tabla de la oportunidad  y tabla de las llamadas -->
+            <div class="row">
+              <div class="col">
+                <table class="table" style="font-size: 12px;">
+                  <thead>
+                    <tr>
+                      <th> N° </th>
+                      <th>Lider</th>
+                      <th>Pmf </th>
+                      <th>Cantidad</th>
+                      <th>Sucursal</th>
+                      <th>Estatus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let listOport of dataOportunidad">
+                      <tr [ngStyle]="{'color': ((listOport.llamadaDelDia) ? 'red' : 'black' ) }" style="font-size: 12px;">
+                        <td>{{ listOport.noOportunidad }}</td>
+                        <td>{{ listOport.nombreLider }}</td>
+                        <td>{{ listOport.nombrePmf }}</td>
+                        <td>{{ listOport.cantidad }}</td>
+                        <td>{{ listOport.sucursal }}</td>
+                        <td>{{ listOport.statusVendedor }}</td>
+                        <td>
+                          <button mat-button color="primary" title="doble click"
+                            (dblclick)="onBuscarOportunidad(listOport.oportunidadID.toString(), listOport.proximaLlamadaVendedor)">
+                            <mat-icon>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="24px"
+                                height="24px">
+                                <path d="M0 0h24v24H0V0z" fill="none" />
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                              </svg>
+                            </mat-icon>
+                          </button>
+                        </td>
+
+                      </tr>
+
+                    </ng-container>
+                  </tbody>
+                </table>
+
+              </div>
+
+
+              <div class="col">
+
+                <!--La variable NoIdentificacionCliente esta declarada en el componente: listaoportunidades(_components/clientes/listaoportunidades), 
+                aqui lo que hace es pasar el noIdentificacion del cliente al componente app-oportunidad       -->
+                <app-listallamadasvendedor [oportunidadIDInput]="''" [estadoBotonLlamadVendInput]="true">
+                </app-listallamadasvendedor>
+              </div>
+
+            </div>
+
+
+          </mat-card-content>
+        </mat-card>
+
+        <div class="mat-elevation-z4">
+          <!--
+                          <div class="spinner-container" *ngIf="loading">
+                              <mat-spinner></mat-spinner>
+                          </div> -->
+
+          <!--<div *ngIf="loading" class="cargando"></div> -->
+
+
+
+        </div>
+
+
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+</div>

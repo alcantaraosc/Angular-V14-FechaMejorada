@@ -1,0 +1,117 @@
+<ng-container *ngIf="shouldRun">
+  <mat-toolbar class="example-header mat-elevation-z8" color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">QANet-Web</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" opened class="example-sidenav color-fondo">
+      <mat-nav-list>
+        <mat-accordion>
+          <h4 style="text-align: center;">Menu Principal</h4>
+          <mat-expansion-panel class="color-fondo" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <!--encabezado-->
+            <mat-expansion-panel-header>
+              <!--<mat-panel-description> Menu principal  </mat-panel-description> -->
+              <mat-panel-title style="color:#3f51b5;">
+                <mat-icon>account_circle</mat-icon> Clientes
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <a mat-list-item style="color:#461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">inicio</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="clientes/lista">Cliente</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="catalogo">Cliente2</a>
+            
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="clientes/lista">Cliente</a>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="color-fondo" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <!--encabezado-->
+            <mat-expansion-panel-header>
+              <mat-panel-title style="color:#3f51b5;">
+                <mat-icon>pageview</mat-icon> Consultas
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Consulta 1</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Consulta 2</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Consulta 3</a>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="color-fondo" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <!--encabezado-->
+            <mat-expansion-panel-header>
+              <mat-panel-title style="color:#3f51b5;">
+                <mat-icon>assignment</mat-icon> Reportes
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Reportes 1</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Reportes 2</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Reportes 3</a>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="color-fondo" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <!--encabezado-->
+            <mat-expansion-panel-header>
+              <mat-panel-title style="color:#3f51b5;">
+                <mat-icon>storage</mat-icon> Catalogo
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="catalogo/banco/listar">Banco</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="catalogo/tipo-identificacion/listar">Tipo Identificacion</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="catalogo/estado-civil/listar">Estado Civil</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="angular/grid-licatalogost">Grid-List</a>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="color-fondo" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <!--encabezado-->
+            <mat-expansion-panel-header>
+              <mat-panel-title style="color:#3f51b5;">
+                <mat-icon>admin_panel_settings</mat-icon> Seguridad
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Seguridad 1</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Seguridad 2</a>
+            <a mat-list-item style="color: #461890; font-size: 14px;" routerLinkActive="list-item-active"
+              routerLink="">Seguridad 3</a>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+      </mat-nav-list>
+    </mat-sidenav>
+
+   
+    
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+       <!--<div *ngIf="showLoadingIndicator" class="cargando"></div>     -->
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+  <!--<mat-toolbar class="example-footer">Footer</mat-toolbar>-->
+</ng-container>
+
+<div *ngIf="!shouldRun">Please open on StackBlitz to see result</div>

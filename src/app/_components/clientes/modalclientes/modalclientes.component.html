@@ -1,0 +1,395 @@
+<mat-toolbar color="primary">
+  <h2 mat-dialog-title> {{data.titulo}}</h2>
+  <span class="fill-remaining-space"></span>
+  <div class="spacer"></div>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-content>
+
+    <div class="row">
+      <div class="col-md-4 col-lg-4"></div>
+      <div class="col-md-4 col-lg-4">
+        <h3 style="text-align: center;">Datos del clientes</h3>
+      </div>
+      <div class="col-md-4 col-lg-4"> <button mat-raised-button color="primary">Procesar</button></div>
+
+    </div>
+    <!--  -->
+    <form [formGroup]="frmClientes">
+      <!--tab page-->
+      <mat-tab-group dynamicHeight>
+        <mat-tab label="Datos Generales">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4">
+
+            <!--1era fila-->
+            <div class="row">
+              <!--tipo de cliente-->
+              <div class="col-md-4 col-lg-4">
+
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Tipo de Identificacion</mat-label>
+                  <mat-select placeholder="" formControlName="tipoIdentificacionID">
+                    <mat-option>Seleccione Tipo Identificacion</mat-option>
+                    <ng-container *ngFor="let tipIdentificacion of listTipoIdentificacion">
+                      <mat-option value="{{tipIdentificacion.tipoIdentificacionID}}">
+                        {{tipIdentificacion.nombreIdentificacion}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="frmClientes.get('tipoIdentificacionID').errors && frmClientes.get('tipoIdentificacionID').touched">
+                    <p *ngIf="frmClientes.get('tipoIdentificacionID').hasError('required')">es un campo requerido</p>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--clienteID-->
+              <div class="col-md-4 col-lg-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Cliente ID</mat-label>
+                  <input matInput placeholder="#Identificación del Cliente" formControlName="clienteID">
+
+                  <mat-error *ngIf="frmClientes.get('clienteID').hasError('required')">
+                    Campo requerido
+                  </mat-error>
+
+                </mat-form-field>
+              </div>
+
+              <!--subcursalID-->
+              <div class="col-md-4 col-lg-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Sucursal</mat-label>
+                  <mat-select id="subcursal" placeholder="" formControlName="sucursalID">
+                    <mat-option>Sucursales</mat-option>
+                    <ng-container *ngFor="let sucursales of listSucursal">
+                      <mat-option value="{{sucursales.sucursalID}}">{{sucursales.nombreSucursal}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('sucursalID')">
+                    {{getErrorMensage("clienteID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--2da fila-->
+            <div class="row">
+              <!--nombre del cliente-->
+              <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Nombre del Cliente</mat-label>
+                  <input matInput placeholder="Nombre y Apellido del Cliente" formControlName="nombreCliente">
+
+                  <mat-error *ngIf="frmClientes.get('nombreCliente').errors && frmClientes.get('nombreCliente').touched">
+                    <p *ngIf="frmClientes.get('nombreCliente').hasError('required')">Debes de escribir el nombre del cliente </p>
+                </mat-error>
+
+                </mat-form-field>
+              </div>
+
+              <!--contacto del cliente-->
+              <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Contacto del Cliente</mat-label>
+                  <input matInput placeholder="Nombre y Apellido del Contacto" formControlName="contacto">
+                  <mat-error *ngIf="isValidField('contacto')">
+                    {{getErrorMensage("contacto")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--3era fila-->
+            <div class="row">
+              <!--Tipo de Sexo-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Sexo</mat-label>
+                  <mat-select formControlName="tipoSexoID">
+                    <mat-option>Selecionar Sexo</mat-option>
+                    <ng-container *ngFor="let tipoSexo of listTipoSexo">
+                      <mat-option value="{{tipoSexo.tipoSexoID}}">{{tipoSexo.nombreSexo}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('tipoSexoID')">
+                    {{getErrorMensage("tipoSexoID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Edad-->
+              <div class="col-md-4 col-xl-4">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Edad</mat-label>
+                  <input matInput type="number" placeholder="Edad" formControlName="edad" min="0" max="90">
+                  <mat-error *ngIf="isValidField('edad')">
+                    {{getErrorMensage("edad")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Estado civil id-->
+              <div class="col-md-4 col-xl-4">
+
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Estado Civil</mat-label>
+                  <mat-select id="estado-Civil" placeholder="" formControlName="estadoCivilID">
+                    <mat-option>Selecionar Estado Civil</mat-option>
+                    <ng-container *ngFor="let estadoCivil of listEstadoCivil">
+                      <mat-option value="{{estadoCivil.estadoCivilID}}">{{estadoCivil.nombreEstadoCivil}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('estadoCivilID')">
+                    {{getErrorMensage("estadoCivilID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--4ta fila-->
+            <div class="row">
+              <!--Ocupacion-->
+              <div class="col-md-4 col-xl-4">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Ocupacion</mat-label>
+                  <input matInput placeholder="Ocupacion" formControlName="ocupacion">
+
+                </mat-form-field>
+              </div>
+
+              <!--Personeria-->
+              <div class="col-md-4 col-xl-4">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Personeria</mat-label>
+                  <mat-select formControlName="personeriaID">
+                    <mat-option>Selecione </mat-option>
+                    <ng-container *ngFor="let personeria of listPersoneria">
+                      <mat-option value="{{personeria.personeriaID}}">{{personeria.nombrePersoneria}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('personeriaID')">
+                    {{getErrorMensage("personeriaID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--PEP-->
+              <div class="col-md-4 col-xl-4">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Es PEP?</mat-label>
+                  <mat-select formControlName="pep">
+                    <mat-option>Selecione </mat-option>
+                    <ng-container *ngFor="let datosPep of listPep">
+                      <mat-option value="{{datosPep.value}}">{{datosPep.text}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('pep')">
+                    {{getErrorMensage("pep")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!--5ta fila-->
+            <div class="row">
+              <!--fecha de creacion-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Fecha de Apertura</mat-label>
+                  <input matInput readonly formControlName="fechaCreacion">
+                </mat-form-field>
+              </div>
+
+            </div>
+          </div>
+        </mat-tab>
+
+
+        <mat-tab label="Datos Especificos">
+          <!--para hacer la pagina mas grande -->
+          <div class="example-large-box mat-elevation-z4">
+
+            <!--1era fila-->
+            <div class="row">
+              <!--Departamento-->
+              <div class="col-md-4 col-lg-4">
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Departamento</mat-label>
+                  <mat-select formControlName="departamentoID" (valueChange)="onSeleccionarMunicipio($event)">
+                    <mat-option>Seleccione Departamento</mat-option>
+                    <ng-container *ngFor="let departamento of listDepartamento">
+                      <mat-option value="{{departamento.departamentoID}}"> {{departamento.nombreDepartamento}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('departamentoID')">
+                    {{getErrorMensage("departamentoID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--MunicipioID-->
+              <div class="col-md-4 col-lg-4">
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Municipio</mat-label>
+                  <mat-select formControlName="municipioID">
+                    <mat-option>Seleccione Municipio</mat-option>
+                    <ng-container *ngFor="let municipio of listMunicipio">
+                      <mat-option value="{{municipio.municipioID}}"> {{municipio.nombreMunicipio}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+
+                  <mat-error *ngIf="isValidField('municipioID')">
+                    {{getErrorMensage("municipioID")}}
+                  </mat-error>
+
+                </mat-form-field>
+              </div>
+
+              <!--Email-->
+              <div class="col-md-4 col-lg-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Email</mat-label>
+                  <input matInput placeholder="Email" formControlName="email">
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+
+            </div>
+
+
+            <!--2da fila-->
+            <div class="row">
+              <!--Email 2-->
+              <div class="col-md-4 col-lg-4">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Email 2</mat-label>
+                  <input matInput placeholder="Email 2" formControlName="email2">
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+
+
+              <!--Email 3-->
+              <div class="col-md-4 col-lg-4">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Email 3</mat-label>
+                  <input matInput placeholder="Email 3" formControlName="email3">
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+
+              <!-- cliente indeseable -->
+              <div class="col-md-4 col-lg-4">
+                <div class="add-bottom-padding">
+                  <mat-slide-toggle color="primary" formControlName="clienteIndeseable">Cliente Indeseable
+                  </mat-slide-toggle>
+                </div>
+              </div>
+
+            </div>
+
+
+            <!--3era fila-->
+            <div class="row">
+              <!--Direccion -->
+              <div class="col-md-12 col-lg-12">
+                <mat-form-field appearance="outline" style="width:100%;">
+                  <mat-label>*Direccion del cliente</mat-label>
+                  <textarea matInput placeholder="Direccion del cliente" formControlName="direccion"></textarea>
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!--4ta fila-->
+            <div class="row">
+              <!--telefono-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Telefono de la Oficina</mat-label>
+                  <input matInput placeholder="telefonos de la oficina" formControlName="telefonos">
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+
+              <!--celular-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Celular</mat-label>
+                  <input matInput placeholder="Celular" formControlName="celular">
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+
+              <!--telefono de la hab-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Telefono Hab.</mat-label>
+                  <input matInput placeholder="Telefono habitacion" formControlName="telefonoHab">
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+
+
+              <!--fax-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <input matInput placeholder="fax" formControlName="fax">
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+
+            </div>
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Lista de Oportunidades">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4">
+
+            <!--La variable NoIdentificacionCliente esta declarada en el componente: listaoportunidades(_components/clientes/listaoportunidades), 
+              aqui lo que hace es pasar el noIdentificacion del cliente al componente pp-listaoportunidades       -->
+            <app-listaoportunidades [NoIdentificacionCliente]="this.data.clienteID"
+              [estadoBotonNuevoOport]="this.valorEstadoBotonOport"></app-listaoportunidades>
+
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+      <!--fin del tab page-->
+
+      <div mat-dialog-actions>
+        <!--<button mat-raised-button color="primary" type="submit">{{textBotonGuardar}}</button>-->
+        
+        <button mat-raised-button color="primary" (click)="onGuardar(false)">{{textBotonGuardar}}</button>
+        <button mat-raised-button color="primary" (click)="onGuardar(true)">{{textBotonGuardaryCerrar}}</button>
+        <button mat-raised-button color="warn" (click)="onClose()">Cancelar</button>
+      </div>
+
+
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+
+  </mat-card-actions>
+
+</mat-card>

@@ -1,0 +1,57 @@
+<mat-toolbar color="primary">
+    <h2 mat-dialog-title>{{data.titulo}}</h2>
+    <span class="fill-remaining-space"></span>
+    <div class="spacer"></div>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+        <!-- This is where you need to add your login form -->
+    </mat-card-content>
+    <form [formGroup]="municipioForm">
+
+        <!--Municipio-->
+        <mat-form-field>
+            <mat-label>Municipio ID</mat-label>
+            <input matInput readonly formControlName="municipioID">
+        </mat-form-field>
+
+        <!--nombreMunicipio-->
+        <mat-form-field>
+            <mat-label>Municipio</mat-label>
+            <input matInput formControlName="nombreMunicipio">
+
+            <mat-error *ngIf="municipioForm.get('nombreMunicipio').hasError('required')">
+                Debe escribir el Municipio
+
+            </mat-error>
+        </mat-form-field>
+
+        <!-- activo -->
+        <div class="add-bottom-padding">
+            <mat-slide-toggle color="primary" formControlName="activo" (click)="validarStatuActivo()">Activo
+            </mat-slide-toggle>
+        </div>
+
+        <!--nombreDepartamento -->
+        <mat-form-field>
+            <mat-select id="departamentoID" formControlName="departamentoID" placeholder="Departamento">
+                <mat-option>Seleccione el Departamento</mat-option>
+                <ng-container *ngFor="let departamento of datadepartamento">
+                    <mat-option value="{{departamento.departamentoID}}">{{departamento.nombreDepartamento}}
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+
+        <div mat-dialog-actions>
+
+            <button mat-raised-button color="primary" (click)="onGuardar()">{{textBotonGuardar}}</button>
+            <button mat-raised-button color="warn" (click)="onClose()">Cancelar</button>
+        </div>
+    </form>
+    <mat-card-actions></mat-card-actions>
+</mat-card>

@@ -1,0 +1,73 @@
+<mat-toolbar color="primary">
+    <h2 mat-dialog-title>{{data.title}}</h2>
+    <span class="fill-remaining-space"></span>
+    <div class="spacer"></div>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-card>
+
+    <mat-card-content>
+        <!-- This is where you need to add your login form -->
+    </mat-card-content>
+    <form [formGroup]="sucursalForm">
+
+        <!--<input formControlName="financieraID" disabled>-->
+
+        <mat-form-field>
+            <mat-label>Sucursal ID</mat-label>
+            <input matInput readonly formControlName="sucursalID">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Codigo Sucursal</mat-label>
+            <!--<input matInput [(ngModel)]="data.nombre">-->
+            <input matInput formControlName="abreviatura">
+            <mat-error *ngIf="sucursalForm.get('abreviatura').hasError('required')">
+                Debe escribir el código
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre Sucursal</mat-label>
+            <!--<input matInput [(ngModel)]="data.nombre">-->
+            <input matInput formControlName="nombreSucursal">
+            <mat-error *ngIf="sucursalForm.get('nombreSucursal').hasError('required')">
+                Debe escribir el nombre
+            </mat-error>
+        </mat-form-field>
+
+        <!-- activo -->
+        <div class="add-bottom-padding">
+            <!--<mat-checkbox [(ngModel)]="data.activo" >Activo</mat-checkbox>--->
+            <mat-slide-toggle color="primary" formControlName="activo" (click)="validarStatuActivo()">Activo
+            </mat-slide-toggle>
+            <!--<mat-error>Invalid email address.</mat-error>-->
+        </div>
+
+
+        <!--
+                <mat-form-field appearance="fill">
+                  <mat-label>Select an option</mat-label>
+                  <mat-select [(value)]="financieraForm.tipoCategoriaID">
+                    <mat-option>None</mat-option>
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2">Option 2</mat-option>
+                    <mat-option value="option3">Option 3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              -->
+
+        <div mat-dialog-actions>
+            <button mat-raised-button class="primary" color="primary" (click)="onGuardar()">{{textBotonGuardar}}</button>
+            <button mat-raised-button color="warn" (click)="onClose()">Cancelar</button>
+        </div>
+    </form>
+
+    <mat-card-actions>
+
+    </mat-card-actions>
+
+</mat-card>

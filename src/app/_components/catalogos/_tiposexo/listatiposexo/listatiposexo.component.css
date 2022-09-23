@@ -1,0 +1,45 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-header-cell {
+    font-size: 15px;
+    font-weight: bolder;
+  }
+  
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .fila{
+    background-color: yellow;
+  }
+  
+  .container {
+    margin: 0.625rem;
+    padding: 0.938rem
+  }
+  
+  
+  .color-fondo {
+  background-color:#e9e6e6;
+  }
+  
+  
+  .cargando{
+  border: 16px solid silver;
+  border-top: 16px solid #337AB7;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 700ms linear infinite;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  }
+  
+  @keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% {transform: rotate(-360deg);}
+  }

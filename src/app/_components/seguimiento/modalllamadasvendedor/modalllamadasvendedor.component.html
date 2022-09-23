@@ -1,0 +1,110 @@
+<mat-toolbar color="primary">
+  <h2 mat-dialog-title> {{data.titulo}}</h2>
+  <span class="fill-remaining-space"></span>
+  <div class="spacer"></div>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-content>
+
+    <!---->
+    <h3>Llamadas del Vendedor</h3>
+
+    <!-- -->
+    <form [formGroup]="frmGroupLlamadaVendedor">
+
+      <!--1era fila-->
+      <div class="row">
+
+        <!--estatus de la oportunidad-->
+        <div class="col-md-6 col-lg-6">
+          <!--from-field-->
+          <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>*Estatus</mat-label>
+            <mat-select id="estatus" formControlName="estatusOportunidadID">
+              <mat-option>-Seleccione el Estatus-</mat-option>
+              <ng-container *ngFor="let estatusOportunidad of listEstatusOportunidad">
+                <mat-option value="{{estatusOportunidad.estatusOportunidadID}}"  #selectListStatusOportunidad>
+                  {{estatusOportunidad.nombreEstatusOportunidad}}</mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="isValidField('estatusOportunidadID')">
+              {{getErrorMensage("estatusOportunidadID")}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!--proxima llamada del vendedor-->
+        <div class="col-md-6 col-xl-6">
+          <!--from-field-->
+          <mat-form-field appearance="standard" style="width:100%;">
+            <mat-label>*Prox. Llamada</mat-label>
+            <input matInput [matDatepicker]="pickerProxLlamad" formControlName="proximaLlamadaVendedor">
+            <mat-datepicker-toggle matSuffix [for]="pickerProxLlamad"></mat-datepicker-toggle>
+            <mat-datepicker #pickerProxLlamad></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <mat-radio-group name="notificationType" formControlName="notificationType">
+          <mat-radio-button value="visita" color="primary" [checked]="data.visita" class="person-radio-button"
+            style="margin: 15px">Visita</mat-radio-button>
+          <mat-radio-button value="llamada" color="primary" [checked]="data.llamada" class="person-radio-button"
+            style="margin: 15px">Llamada</mat-radio-button>
+          <mat-radio-button value="avaluo" color="primary" [checked]="data.avaluo" class="person-radio-button"
+            style="margin: 15px">Avaluo</mat-radio-button>
+          <mat-radio-button value="correo" color="primary" [checked]="data.correo" class="person-radio-button"
+            style="margin: 15px">Correo</mat-radio-button>
+        </mat-radio-group>
+
+
+        <!-- <mat-radio-button value="visita"  color="primary" [checked]="data.visita" class="person-radio-button" style="margin: 15px">Visita</mat-radio-button>  
+        <mat-radio-button value="llamada" color="primary" [checked]="data.llamada" class="person-radio-button" style="margin: 15px">Llamada</mat-radio-button>  
+        <mat-radio-button value="avaluo" color="primary" [checked]="data.avaluo" class="person-radio-button" style="margin: 15px">Avaluo</mat-radio-button> 
+        <mat-radio-button value="correo" color="primary" [checked]="data.correo" class="person-radio-button" style="margin: 15px">Correo</mat-radio-button> -->
+
+
+        <!--<mat-radio-button class="material-radio" value="true" [checked]="data.trueClient === 'true'">True Client</mat-radio-button>
+        <mat-radio-button class="material-radio" value="false" [checked]="data.lostLead === 'false'">Lost Lead</mat-radio-button>-->
+
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-xl-12">
+          <div class="add-bottom-padding">
+            <mat-slide-toggle color="primary" formControlName="importancia">Importancia
+            </mat-slide-toggle>                  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-12 col-xl-12">
+          <mat-form-field appearance="outline" style="width:100%;">
+            <mat-label>*Comentario del Vendedor</mat-label>
+            <textarea matInput placeholder="*Comentario del Vendedor" rows="10"
+              formControlName="comentarioVendedor"></textarea>
+            <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--fin del tab page-->
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="onGuardar(false)">{{textBotonGuardar}}</button>
+      <button mat-raised-button color="warn" (click)="onClose()">Cancelar</button>
+    </div>
+  </mat-card-actions>
+
+</mat-card>

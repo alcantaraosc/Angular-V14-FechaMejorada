@@ -1,0 +1,45 @@
+<mat-toolbar color="primary">
+    <h2 mat-dialog-title>{{data.title}}</h2>
+    <span class="fill-remaining-space"></span>
+    <div class="spacer"></div>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-card>
+    
+    <mat-card-content>
+        <!-- This is where you need to add your login form -->
+    </mat-card-content>
+    <form [formGroup]="visitaForm">
+        
+        <mat-form-field>
+            <mat-label>ID visita </mat-label>
+            <input matInput readonly formControlName="visitaID">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>nombre Visita</mat-label>
+            <input matInput formControlName="nombreVisita">
+        </mat-form-field>
+
+        <!-- activo -->
+        <div class="add-bottom-padding">
+            <!--<mat-checkbox [(ngModel)]="data.activo" >Activo</mat-checkbox>--->
+            <mat-slide-toggle color="primary" formControlName="activo" (click)="validarStatuActivo()">Activo
+            </mat-slide-toggle>
+            <!--<mat-error>Invalid email address.</mat-error>-->
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button class="primary" color="primary" (click)="onGuardar()">{{textBotonGuardar}}</button>
+            <button mat-raised-button color="warn" (click)="onClose()">Cancelar</button>
+        </div>
+    </form>
+
+    <mat-card-actions>
+
+    </mat-card-actions>
+
+</mat-card>

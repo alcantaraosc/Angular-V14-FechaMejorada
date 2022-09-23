@@ -1,0 +1,135 @@
+<mat-toolbar color="primary">
+    <h2 mat-dialog-title>{{data.title}}</h2>
+    <span class="fill-remaining-space"></span>
+    <div class="spacer"></div>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose(false)" tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+    </mat-card-content>
+    <form [formGroup]="vendedorForm">
+
+        <!--1era fila-->
+        <div class="row">
+            <!--vendedorID-->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Vendedor ID</mat-label>
+                    <input matInput readonly formControlName="vendedorID">
+                </mat-form-field>
+            </div>
+
+            <!--identificacion del vendedor-->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Identificacion</mat-label>
+                    <input matInput formControlName="identificacion">
+                    <mat-error *ngIf="vendedorForm.get('identificacion').hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!--2da fila-->
+        <div class="row">
+            <!--codigo del vendedor -->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>codigoVendedor</mat-label>
+                    <input matInput formControlName="codigoVendedor">
+                    <mat-error *ngIf="vendedorForm.get('codigoVendedor').hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!--nombre del vendedor-->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Nombre Vendedor</mat-label>
+                    <input matInput formControlName="nombreVendedor">
+                    <mat-error *ngIf="vendedorForm.get('nombreVendedor').hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!--4ta ila-->
+        <div class="row">
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>*Nombre Sucursal</mat-label>
+                    <mat-select formControlName="sucursalID">
+                        <mat-option>Selecione Sucursal</mat-option>
+                        <ng-container *ngFor="let sucursal of listSucursal">
+                            <mat-option value="{{sucursal.sucursalID }}">
+                                {{sucursal.nombreSucursal}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                    <mat-error *ngIf="isValidField('sucursalID')">
+                        {{getErrorMensage("sucursalID")}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>*Lider</mat-label>
+                    <mat-select formControlName="liderID">
+                        <mat-option>Selecione líder</mat-option>
+                        <ng-container *ngFor="let lider of listLider">
+                            <mat-option value="{{lider.liderID }}">
+                                {{lider.nombreLider}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                    <mat-error *ngIf="isValidField('liderID')">
+                        {{getErrorMensage("liderID")}}
+                    </mat-error>                 
+                </mat-form-field>
+
+            </div>
+
+        </div>
+               <!--4ta fila-->
+               <div class="row">
+                <div class="col-md-6 col-xl-6">
+                    <mat-form-field appearance="standard" style="width:100%;">
+                        <mat-label>*Nombre Usuario</mat-label>
+                        <mat-select formControlName="usuarioID">
+                            <mat-option>Selecione Usuario</mat-option>
+                            <ng-container *ngFor="let usuario of listUsuario">
+                                <mat-option value="{{usuario.usuarioID }}">
+                                    {{usuario.nombreUsuario}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                        <mat-error *ngIf="isValidField('usuarioID')">
+                            {{getErrorMensage("usuarioID")}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>                   
+                
+                <div class="col-md-6 col-xl-6">
+                    <!-- activo -->
+                    <div class="add-bottom-padding">
+                        <mat-slide-toggle color="primary" formControlName="activo" (click)="validarStatuActivo()">Activo
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button class="primary" color="primary"
+                (click)="onGuardar()">{{textBotonGuardar}}</button>
+            <button mat-raised-button color="warn" (click)="onClose(false)">Cancelar</button>
+        </div>
+    </form>
+
+    <mat-card-actions>
+    </mat-card-actions>
+
+</mat-card>

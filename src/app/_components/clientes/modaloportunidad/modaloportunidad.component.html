@@ -1,0 +1,572 @@
+<mat-toolbar color="primary">
+  <h2 mat-dialog-title> {{data.titulo}}</h2>
+  <span></span>
+  <div class="spacer"></div>
+  <button mat-stroked-button (click)="onClose()" tabIndex="-1">
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-content>
+
+    <!-- -->
+    <form [formGroup]="frmGroupOportunidad">
+      <!--tab page-->
+      <mat-tab-group dynamicHeight>
+        <mat-tab label="Oportunidad">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4">
+
+            <!--1era fila-->
+            <div class="row">
+              <!--sucursal-->
+              <div class="col-md-2 col-lg-3">
+
+                <input type="hidden" id="oportunidadID" name="oportunidadID" formControlName="oportunidadID">
+                <input type="hidden" id="noOportunidad" name="noOportunidad" formControlName="noOportunidad">
+                <input type="hidden" id="clienteID" name="clienteID" formControlName="clienteID">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Sucursal</mat-label>
+                  <mat-select id="subcursal" placeholder="" formControlName="sucursalID">
+                    <mat-option>-Seleccione la Sucursal-</mat-option>
+                    <ng-container *ngFor="let sucursal of listSucursales">
+                      <mat-option value="{{sucursal.sucursalID}}">{{sucursal.nombreSucursal}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('sucursalID')">
+                    {{getErrorMensage("sucursalID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--estatus de la oportunidad-->
+              <div class="col-md-2 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Estatus</mat-label>
+                  <mat-select id="estatus" placeholder="" formControlName="estatusOportunidadID">
+                    <mat-option>-Seleccione el Estatus-</mat-option>
+                    <ng-container *ngFor="let estatusOportunidad of listEstatusOportunidad">
+                      <mat-option value="{{estatusOportunidad.estatusOportunidadID}}">
+                        {{estatusOportunidad.nombreEstatusOportunidad}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('estatusOportunidadID')">
+                    {{getErrorMensage("estatusOportunidadID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--tipo de clase-->
+              <div class="col-md-2 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Clase</mat-label>
+                  <mat-select id="clase" placeholder="" formControlName="tipoClaseID">
+                    <mat-option>-Seleccione la Clase-</mat-option>
+                    <ng-container *ngFor="let tipoClase of listTipoClase">
+                      <mat-option value="{{tipoClase.tipoClaseID}}">{{tipoClase.nombreTipoClase}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('tipoClaseID')">
+                    {{getErrorMensage("tipoClaseID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Fecha de Apertura-->
+              <div class="col-md-2 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Fecha de Apertura</mat-label>
+                  <input matInput readonly placeholder="fecha de apertura" id="fechaCreacion" name="fechaCreacion"
+                    formControlName="fechaCreacion" #inputFechaCreacion>
+                </mat-form-field>
+
+
+                <!--<mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Fecha de Apertura</mat-label>
+                  <input matInput placeholder="fecha de apertura" id="fechaCreacion"  name="fechaCreacion" formControlName="fechaCreacion" (change)="inputDateValue = $event.target.value" [value]="inputDateValue" #fechacreada>
+                </mat-form-field>-->
+
+
+                <!--<mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Fecha de Apertura</mat-label>
+                  <input matInput [matDatepicker]="dp1" formControlName="fechaCreacion">
+                  <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                  <mat-datepicker #dp1></mat-datepicker>
+                </mat-form-field>-->
+
+              </div>
+
+            </div>
+
+            <!--2da fila-->
+            <div class="row">
+              <!--Modelo-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*Modelo</mat-label>
+                  <mat-select id="modelo" formControlName="modeloID" (valueChange)="onChangeModelo($event)">
+                    <mat-option>-Seleccione el Modelo-</mat-option>
+                    <ng-container *ngFor="let modelo of listModelo">
+                      <mat-option value="{{modelo.modeloID}}">{{modelo.nombreModelo}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('modeloID')">
+                    {{getErrorMensage("modeloID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--PMF-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>*PMF</mat-label>
+                  <mat-select id="pmfVhID" formControlName="pmfVhID">
+                    <mat-option>-Seleccione el PMF-</mat-option>
+                    <ng-container *ngFor="let pmfVh of listPmfVh">
+                      <mat-option value="{{pmfVh.pmfVhID}}">{{pmfVh.nombrePmf}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('pmfVhID')">
+                    {{getErrorMensage("pmfVhID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Cantidad-->
+              <div class="col-md-2 col-xl-2">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Cantidad</mat-label>
+                  <input matInput type="number" placeholder="Cantidad" formControlName="cantidad">
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--3era fila-->
+            <div class="row">
+
+              <!--Vendedor-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Vendedor</mat-label>
+                  <mat-select formControlName="vendedorID" (valueChange)="onChangeVendedor($event)">
+                    <mat-option>-Selecione el Vendedor-</mat-option>
+                    <ng-container *ngFor="let vendedor of listVendedores">
+                      <mat-option value="{{vendedor.vendedorID}}">{{vendedor.nombreVendedor}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('vendedorID')">
+                    {{getErrorMensage("vendedorID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Lider-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Lider</mat-label>
+                  <mat-select formControlName="liderID">
+                    <mat-option>-Selecione el Lider-</mat-option>
+                    <ng-container *ngFor="let lider of listLideres">
+                      <mat-option value="{{lider.liderID}}">{{lider.nombreLider}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('liderID')">
+                    {{getErrorMensage("liderID")}}
+                  </mat-error>
+                </mat-form-field>                
+              </div>
+
+
+              <!--Prima-->
+              <div class="col-md-4 col-xl-4">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Prima</mat-label>
+                  <input matInput placeholder="*Prima" formControlName="prima">
+                  <mat-error *ngIf="isValidField('prima')">
+                    {{getErrorMensage("prima")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--4ta fila-->
+            <div class="row">
+
+              <!--financiera -->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Financiera</mat-label>
+                  <mat-select formControlName="financieraID">
+                    <mat-option>-Selecionar la finananciera-</mat-option>
+                    <ng-container *ngFor="let financiera of listFinanciera">
+                      <mat-option value="{{financiera.financieraID}}">{{financiera.nombreFinanciera}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('financieraID')">
+                    {{getErrorMensage("financieraID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Visita-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Visita</mat-label>
+                  <mat-select formControlName="visitaID">
+                    <mat-option>Selecionar visita</mat-option>
+                    <ng-container *ngFor="let visita of listVisita">
+                      <mat-option value="{{visita.visitaID}}">{{visita.nombreVisita}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('visitaID')">
+                    {{getErrorMensage("visitaID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Motivo-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Motivo</mat-label>
+                  <mat-select formControlName="motivoID">
+                    <mat-option>Selecionar motivo</mat-option>
+                    <ng-container *ngFor="let motivo of listMotivo">
+                      <mat-option value="{{motivo.motivoID}}">{{motivo.nombreMotivo}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('motivoID')">
+                    {{getErrorMensage("motivoID")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--5ta fila-->
+            <div class="row">
+
+              <!--Contacto-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Contacto</mat-label>
+                  <input matInput placeholder="Contacto" formControlName="contacto">
+                </mat-form-field>
+              </div>
+
+              <!--correo-->
+              <div class="col-md-4 col-xl-4">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Correo</mat-label>
+                  <input matInput placeholder="correo" formControlName="correo">
+                </mat-form-field>
+              </div>
+
+              <!--Celular-->
+              <div class="col-md-2 col-xl-2">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Celular</mat-label>
+                  <input matInput placeholder="Celular" formControlName="celular">
+                </mat-form-field>
+              </div>
+
+              <!--Telefono Oficina-->
+              <div class="col-md-2 col-xl-2">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Telf. Ofi. </mat-label>
+                  <input matInput placeholder="Telefono Oficina" formControlName="telefono">
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <!--6ta fila-->
+            <div class="row">
+
+              <!--proxima llamada del vendedor-->
+              <div class="col-md-3 col-xl-3">
+                <!--from-field-->
+                <!-- <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Prox. Llamada</mat-label>
+                  <input matInput type="date" formControlName="proximaLlamadaVendedor">
+                </mat-form-field>-->
+
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Prox. Llamada</mat-label>
+                  <input matInput [matDatepicker]="pickerProxLlamad" formControlName="proximaLlamadaVendedor" readonly="false">
+                  <mat-datepicker-toggle matSuffix [for]="pickerProxLlamad"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerProxLlamad></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <!--Cantidad de la llamada para la proxima llamada-->
+              <div class="col-md-3 col-xl-3">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Llamada</mat-label>
+                  <input matInput type="number" value="50" readonly formControlName="cantidadLlamada">
+                </mat-form-field>
+              </div>
+
+              <!--Fecha de cierre de la oportunidad -->
+              <div class="col-md-3 col-xl-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>*Fecha Cierre</mat-label>
+                  <input matInput [matDatepicker]="pickerFechaCierreOport" formControlName="fechaCierreOport">
+                  <mat-datepicker-toggle matSuffix [for]="pickerFechaCierreOport"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerFechaCierreOport></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <!-- Prueba de manejo -->
+              <div class="col-md-3 col-lg-3">
+                <div class="add-bottom-padding">
+                  <mat-slide-toggle color="primary" formControlName="pruebaManejo">Prueba de Manejo
+                  </mat-slide-toggle>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </mat-tab>
+
+
+        <mat-tab label="Comentario del Vehiculo">
+          <!--para hacer la pagina mas grande -->
+          <div class="example-large-box mat-elevation-z4">
+
+            <!--1era fila-->
+            <div class="row">
+
+              <!--Posee Vehiculo-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>Posee Vehiculo?</mat-label>
+                  <mat-select id="poseeVhValorString" formControlName="poseeVhValorString"
+                    (valueChange)="onChangePoseeVh()">
+                    <mat-option>-Seleccione-</mat-option>
+                    <ng-container *ngFor="let datoPoseeVh of listPoseeVh">
+                      <mat-option value="{{datoPoseeVh.value}}">{{datoPoseeVh.text}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="isValidField('poseeVhValorString')">
+                    {{getErrorMensage("poseeVhValorString")}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!--Le Interesa el avaluo-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>Le interesa Avalúo?</mat-label>
+                  <mat-select id="leInteresaAvaluoValorString" formControlName="leInteresaAvaluoValorString">
+                    <mat-option>-Seleccione-</mat-option>
+                    <ng-container *ngFor="let datoLeInteresaAvaluo of listLeInteresaAvaluo">
+                      <mat-option value="{{datoLeInteresaAvaluo.value}}">{{datoLeInteresaAvaluo.text}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!--año Modelo -->
+              <div class="col-md-3 col-lg-3">
+
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>Año Modelo?</mat-label>
+                  <mat-select id="anoModelo" formControlName="anoModelo">
+                    <mat-option>-Seleccione-</mat-option>
+                    <ng-container *ngFor="let datoAnoModelo of listAnoModelo">
+                      <mat-option value="{{datoAnoModelo.value}}">{{datoAnoModelo.text}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <!--realizo Avaluo-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>Realizo el Avalúo?</mat-label>
+                  <mat-select id="realizoAvaluoValorString" formControlName="realizoAvaluoValorString">
+                    <mat-option>-Seleccione-</mat-option>
+                    <ng-container *ngFor="let datoRealizoAvaluo of listRealizoAvaluo">
+                      <mat-option value="{{datoRealizoAvaluo.value}}">{{datoRealizoAvaluo.text}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <!--modeloVHquePosee-->
+              <div class="col-md-9 col-xl-9">
+                <mat-form-field appearance="standard" style="width:100%;">
+                  <mat-label>Modelo</mat-label>
+                  <input matInput id="modeloVHquePosee" formControlName="modeloVHquePosee">
+                </mat-form-field>
+              </div>
+
+              <!--aplica Avaluo ValorString-->
+              <div class="col-md-3 col-lg-3">
+                <!--from-field-->
+                <mat-form-field appearance="standard" style="width: 100%;">
+                  <mat-label>Aplica el Avalúo?</mat-label>
+                  <mat-select id="aplicaAvaluoValorString" formControlName="aplicaAvaluoValorString">
+                    <mat-option>-Seleccione-</mat-option>
+                    <ng-container *ngFor="let datoAplicaAvaluo of listAplicaAvaluo">
+                      <mat-option value="{{datoAplicaAvaluo.value}}">{{datoAplicaAvaluo.text}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-12 col-xl-12">
+                <mat-form-field appearance="outline" style="width:100%;">
+                  <mat-label>*Comentario del Vendedor</mat-label>
+                  <textarea matInput placeholder="*Comentario del Vendedor" rows="10"
+                    formControlName="comentarioVendedor"></textarea>
+                  <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+
+        </mat-tab>
+
+        <mat-tab label="Vendedor">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4" style="height: 450px;">
+
+            <!--Las variables oportunidadIDInput y estadoBotonComentVendInput estan declaradas en el componente listallamadasvendedor,
+              aqui lo que hace es pasar la informacion desde la ventana modal oportunidad a al componente listallamadasvendedor  -->
+            <!--este compontene esta ubicado en _components/seguimiento/listallamadasvendedor-->
+            <app-listallamadasvendedor [oportunidadIDInput]="this.data.oportunidadID"  [estadoBotonLlamadVendInput]="this.data.isNuevaOportunidad"></app-listallamadasvendedor>
+            <!-- [estadoBotonLlamadVendInput]="this.data.isNuevaOportunidad" -->
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Lider">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4" style="height: 450px;">
+
+            <!--Las variables oportunidadIDInput, estadoBotonComentLiderInput y proximaLlamadaLiderInput estan declaradas en el componente listallamadaslider,
+              aqui lo que hace es pasar la informacion desde la ventana modal oportunidad a al componente listallamadaslider -->
+            <!--este compontene esta ubicado en _components/seguimiento/listallamadaslider-->
+            <app-listallamadaslider [oportunidadIDInput]="this.data.oportunidadID"
+              [estadoBotonComentLiderInput]="this.data.isNuevaOportunidad"
+              [proximaLlamadaLiderInput]="this.data.proximaLlamadaLider"></app-listallamadaslider>
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="DAC">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4" style="height: 450px;">
+
+            <!--Las variables oportunidadIDInput, estadoBotonComentLiderInput y proximaLlamadaLiderInput estan declaradas en el componente listallamadaslider,
+              aqui lo que hace es pasar la informacion desde la ventana modal oportunidad a al componente listallamadaslider -->
+            <!--este compontene esta ubicado en _components/seguimiento/listallamadaslider-->
+            <app-listallamadaslider [oportunidadIDInput]="this.data.oportunidadID"
+              [estadoBotonComentLiderInput]="this.data.isNuevaOportunidad"
+              [proximaLlamadaLiderInput]="this.data.proximaLlamadaLider"></app-listallamadaslider>
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Financiero">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4" style="height: 450px;">
+
+            <!--Las variables oportunidadIDInput, estadoBotonComentFinanInput y proximaLlamadaFinancieroInput estan declaradas en el componente listallamadasfinanciero,
+              aqui lo que hace es pasar la informacion desde la ventana modal oportunidad a al componente listallamadasfinanciero -->
+            <!--este compontene esta ubicado en _components/seguimiento/listallamadasfinanciero-->
+            <app-listallamadasfinanciero [oportunidadIDInput]="this.data.oportunidadID"
+              [estadoBotonComentFinanInput]="this.data.isNuevaOportunidad"
+              [proximaLlamadaFinancieroInput]="this.data.proximaLlamadaFinanciero"
+              [estatusFinancieroInput]= "this.data.estatusFinancieroID"></app-listallamadasfinanciero>
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="SuperDAC">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4" style="height: 450px;">
+
+            <!--La variable clienteNoportunidad esta declarada en el componente listaoportunidad, aqui lo que hace es pasar el noIdentificacion del cliente 
+            al componente app-oportunidad       -->
+            <!--<app-listaoportunidades [clienteID]="this.data.clienteID"></app-listaoportunidades>-->
+            <!--La variable clienteID esta declarada en el componente listaoportunidad, aqui lo que hace es pasar el noIdentificacion 
+              del cliente al componente app-oportunidad       -->
+            <!--<app-listaovendedores [clienteID]="this.data.clienteID"></app-listaovendedores>-->
+            <!--este compontene esta ubicado en _components/seguimiento/listavendedores-->
+            <app-listallamadaslider [oportunidadIDInput]="this.data.oportunidadID"
+              [estadoBotonComentLiderInput]="this.data.isNuevaOportunidad"
+              [proximaLlamadaLiderInput]="this.data.proximaLlamadaLider"></app-listallamadaslider>
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="TELEMARK">
+          <!--para hacer la pagina grande-->
+          <div class="example-large-box mat-elevation-z4" style="height: 450px;">
+
+            <!--La variable clienteNoportunidad esta declarada en el componente listaoportunidad, aqui lo que hace es pasar el noIdentificacion del cliente 
+            al componente app-oportunidad       -->
+            <!--<app-listaoportunidades [clienteID]="this.data.clienteID"></app-listaoportunidades>-->
+            <!--La variable clienteID esta declarada en el componente listaoportunidad, aqui lo que hace es pasar el noIdentificacion 
+              del cliente al componente app-oportunidad       -->
+            <!--<app-listaovendedores [clienteID]="this.data.clienteID"></app-listaovendedores>-->
+            <!--este compontene esta ubicado en _components/seguimiento/listavendedores-->
+            <app-listallamadaslider [oportunidadIDInput]="this.data.oportunidadID"
+              [estadoBotonComentLiderInput]="this.data.isNuevaOportunidad"
+              [proximaLlamadaLiderInput]="this.data.proximaLlamadaLider"></app-listallamadaslider>
+
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+      <!--fin del tab page-->
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div mat-dialog-actions >
+      <button mat-raised-button color="primary" (click)="onGuardar(false)"
+        [disabled]="desahabilitarBotonGuardar">{{textBotonGuardar}}</button>
+      <button mat-raised-button color="primary" (click)="onGuardar(true)"
+        [disabled]="desahabilitarBotonGuardar">{{textBotonGuardaryCerrar}}</button>
+      <button mat-raised-button color="warn" (click)="onClose(false)">Cancelar</button>
+    </div>
+  </mat-card-actions>
+
+</mat-card>

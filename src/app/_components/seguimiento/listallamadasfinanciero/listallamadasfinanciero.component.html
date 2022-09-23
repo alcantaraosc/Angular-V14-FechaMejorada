@@ -1,0 +1,78 @@
+<form [formGroup]="frmGroupListaFinanciero">
+  <!-- -->
+  <div class="row">
+    <div class="col-md-3 col-xl-3">
+
+
+      <button mat-raised-button color="primary" title="agregar nuevo comentario del financiero"
+        (click)="onNuevaLlamadaFinanciero()" [disabled]="estadoBotonComentFinanInput">
+        <mat-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+          </svg>
+        </mat-icon>
+        Agregar
+      </button>
+    </div>
+
+    <!--estatus del financiero-->
+    <div class="col-md-4 col-lg-4">
+      <!--from-field-->
+      <mat-form-field appearance="standard" style="width: 100%;">
+        <mat-label>*Estatus financiero</mat-label>
+        <mat-select id="estatus" formControlName="estatusFinancieroID" (valueChange)="onChangeEstatusFinan($event)">
+          <mat-option>-Seleccione el Estatus-</mat-option>
+          <ng-container *ngFor="let estatusFinanciero of listarEstatusFinanciero">
+            <mat-option value="{{estatusFinanciero.estatusFinancieroID}}" #selectListStatusFinanciero>
+              {{estatusFinanciero.nombreEstatusFinanciero}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-5 col-xl-5">
+      <h4 style="font-weight: bolder; color: brown;">Proxima Llamada:
+        {{ proximaLlamadaFinancieroInput | date: 'dd/MM/yyyy'}}</h4>
+    </div>
+
+
+  </div>
+</form>
+
+<div id="div-scroll">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Fecha y Hora</th>
+        <th scope="col">Comentario Financiero</th>
+        <th scope="col">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let itemLlamadas of listarLlamadasFinanciero">
+        <tr>
+          <td>{{itemLlamadas.llamadaFinancieroID }} </td>
+          <td>{{itemLlamadas.fechaCreacion | date: 'dd/MM/yyyy HH:MM:ss' }}</td>
+          <td>{{itemLlamadas.comentarioFinanciero}}</td>
+          <td>
+            <button mat-button color="primary" title="Editar"
+              (click)="onEditarLlamadaFinanciero(itemLlamadas.llamadaFinancieroID)">
+              <mat-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                  <path d="M0 0h24v24H0V0z" fill="none" />
+                  <path
+                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM21.41 6.34l-3.75-3.75-2.53 2.54 3.75 3.75 2.53-2.54z" />
+                </svg>
+              </mat-icon>
+            </button>
+          </td>
+        </tr>
+
+      </ng-container>
+
+
+    </tbody>
+  </table>
+</div>

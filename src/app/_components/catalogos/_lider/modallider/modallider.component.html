@@ -1,0 +1,102 @@
+<mat-toolbar color="primary">
+    <h3 mat-dialog-title>{{data.title}}</h3>
+    <span class="fill-remaining-space"></span>
+    <div class="spacer"></div>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose(false)" tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+    </mat-card-content>
+    <form [formGroup]="liderForm">
+
+        <!--1era fila-->
+        <div class="row">
+            <!--liderID-->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Lider ID</mat-label>
+                    <input matInput readonly formControlName="liderID">
+                </mat-form-field>
+            </div>
+
+            <!--identificacion del Lideres-->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Identificacion</mat-label>
+                    <input matInput formControlName="identificacion">
+                    <mat-error *ngIf="liderForm.get('identificacion').hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!--2da fila-->
+        <div class="row">
+            <!--codigo del lider -->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Codigo Lider</mat-label>
+                    <input matInput formControlName="codigoLider">
+                    <mat-error *ngIf="liderForm.get('codigoLider').hasError('required')">
+                        Campo requerido
+                    </mat-error>   
+                </mat-form-field>
+            </div>
+
+            <!--nombre del lider-->
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Nombre Lider</mat-label>
+                    <input matInput formControlName="nombreLider">
+                    <mat-error *ngIf="liderForm.get('nombreLider').hasError('required')">
+                        Campo requerido
+                    </mat-error>                                                         
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!--3er fila-->
+        <div class="row">
+            <div class="col-md-6 col-xl-6">
+                <!--area-->
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Area</mat-label>
+                    <input matInput formControlName="area">
+                    <mat-error *ngIf="liderForm.get('area').hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6 col-xl-6">
+                <mat-form-field appearance="standard" style="width:100%;">
+                    <mat-label>Empresa</mat-label>
+                    <input matInput formControlName="empresa">
+                    <mat-error *ngIf="liderForm.get('empresa').hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- activo -->
+        <div class="add-bottom-padding">
+
+            <mat-slide-toggle color="primary" formControlName="activo" (click)="validarStatuActivo()">Activo
+            </mat-slide-toggle>
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button class="primary" color="primary"
+                (click)="onGuardar()">{{textBotonGuardar}}</button>
+            <button mat-raised-button color="warn" (click)="onClose(false)">Cancelar</button>
+        </div>
+    </form>
+
+    <mat-card-actions>
+    </mat-card-actions>
+</mat-card>

@@ -1,0 +1,81 @@
+<mat-toolbar color="primary">
+    <h2 mat-dialog-title> {{data.titulo}}</h2>
+    <span class="fill-remaining-space"></span>
+    <div class="spacer"></div>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+  <mat-card>
+    <mat-card-content>
+  
+     
+      <h3>Llamadas del Lider</h3>
+  
+      <!-- -->
+      <form [formGroup]="frmGroupLlamadaLider">
+  
+        <!--1era fila-->
+        <div class="row">
+  
+          <!--nombreEstatusOportunidad-->
+          <div class="col-md-3 col-xl-3">
+             <!--llamadaLiderID-->
+             <input type="hidden" id="llamadaLiderID" name="llamadaLiderID" formControlName="llamadaLiderID">
+  
+            <mat-form-field appearance="standard" style="width:100%;">
+              <mat-label>*Estatus Oportunidad</mat-label>
+              <input matInput type="text" readonly formControlName="nombreEstatusOportunidad">
+            </mat-form-field>
+          </div>
+  
+        </div>
+  
+        <!--2da fila-->
+        <div class="row">
+  
+          <div class="col-md-3 col-xl-3">
+            <mat-form-field appearance="standard" style="width:100%;">
+              <mat-label>Cantidad Llamadas</mat-label>
+              <input matInput type="number" readonly formControlName="cantidadLlamadas">
+            </mat-form-field>
+          </div>
+  
+          <!--proxima llamada del lider-->
+          <div class="col-md-3 col-xl-3">
+            <!--from-field-->
+            <mat-form-field appearance="standard" style="width:100%;">
+              <mat-label>*Prox. Llamada</mat-label>
+              <input matInput [matDatepicker]="pickerProxLlamad" formControlName="proximaLlamadaLider">
+              <mat-datepicker-toggle matSuffix [for]="pickerProxLlamad"></mat-datepicker-toggle>
+              <mat-datepicker #pickerProxLlamad></mat-datepicker>
+            </mat-form-field>
+          </div>
+  
+        </div>
+    
+        <div class="row">
+  
+          <div class="col-md-12 col-xl-12">
+            <mat-form-field appearance="outline" style="width:100%;">
+              <mat-label>*Comentario del Lider</mat-label>
+              <textarea matInput placeholder="*Comentario del Lider" rows="10"
+                formControlName="comentarioLider"></textarea>
+              <!--<mat-error *ngIf="edadControl.invalid">Min: 0</mat-error>-->
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <!--fin del tab page-->
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <div mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="onGuardar(false)">{{textBotonGuardar}}</button>
+        <button mat-raised-button color="warn" (click)="onClose()">Cancelar</button>
+      </div>
+    </mat-card-actions>
+  
+  </mat-card>
+  

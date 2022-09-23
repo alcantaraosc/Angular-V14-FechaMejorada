@@ -1,0 +1,192 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Revisión de Fichas de Clientes</h3>
+
+      </div>
+      <!-- /.box-header -->
+
+      <div class="box-body">
+        <mat-card>
+          <form [formGroup]="frmRevisionCliente">
+            <mat-card-content>
+              <div class="row">
+                <div class="col">
+                  <!--drownlist Tipo busqueda-->
+                  <!--<mat-form-field appearance="fill">
+                                        <mat-select [(ngModel)]="filltroSeleccionado">
+                                            <mat-label> Tipo </mat-label>
+                                            <mat-option *ngFor="let filtro of listaFiltroTipoCliente" [value]="filtro.value">
+                                                {{ filtro.text }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>-->
+
+                  <mat-form-field appearance="standard" style="width: 100%;">
+                    <mat-label>Seleccione el tipo</mat-label>
+                    <mat-select formControlName="filtroTipoCliente"
+                      (selectionChange)="onSeleccionarFiltroTipoRevision($event.value)">
+                      <mat-option>Seleccione Lider</mat-option>
+                      <ng-container *ngFor="let tipoFiltro of filtroTipoRevision">
+                        <mat-option value="{{tipoFiltro.value}}" (click)="optipo(tipoFiltro.value)">
+                          {{tipoFiltro.text}}</mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+                <!--fin de col filtroseleccionado-->
+
+                <!--seleccionar de fecha de la ficha de revision-->
+                <div class="col">
+                  <mat-form-field appearance="standard">
+                    <mat-label>Seleccionar una fecha</mat-label>
+                    <!-- <input matInput [matDatepicker]="pickerfecha" formControlName="seleccionarFecha" (dateChange)="onBuscarLlamadasVendedor()">-->
+                    <input matInput [matDatepicker]="pickerfechaRevisionCliente" formControlName="seleccionarFecha" />
+                    <mat-datepicker-toggle matSuffix [for]="pickerfechaRevisionCliente"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerfechaRevisionCliente></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <!--fin de la  fecha-->
+
+                <!--Drownlist LIDER-->
+                <div class="col">
+                  <!--from-field-->
+                  <!--vendedores-->
+                  <!--<div class="col" [formGroup]="frmGroupListLider">-->
+                  <mat-form-field appearance="standard" style="width: 100%;">
+                    <mat-label>*Lider</mat-label>
+                    <mat-select formControlName="lider_ID" (selectionChange)="onSeleccionarLiderId($event.value)">
+                      <!--<mat-option>Seleccione Lider</mat-option>-->
+                      <ng-container *ngFor="let lideres of listLideres">
+                        <mat-option value="{{lideres.liderID}}">{{lideres.nombreLider}}</mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                  <!--</div>-->
+
+                </div>
+                <!-- col fin del lider-->
+
+                <!--Drownlist VENDEDOR-->
+                <div class="col">
+                  <mat-form-field appearance="standard" style="width: 100%;">
+                    <mat-label> Vendedor</mat-label>
+                    <mat-select formControlName="vendedor_ID">
+                      <mat-option>Seleccionar Vendedor</mat-option>
+                      <ng-container *ngFor="let vendedores of listVendedor">
+                        <mat-option value="{{vendedores.vendedorID}}">{{vendedores.nombreVendedor}}</mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--fin col vendedor-->
+
+                <div class="col">
+                  <div class="d-flex flex-row">
+                    <!--boton buscar-->
+                    <div>
+                      <button mat-raised-button style="left:6%;top:10px;" (click)="onFiltrando()" title="Consultar">
+                        <mat-icon>
+                          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path
+                              d="M20 19.59V8l-6-6H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c.45 0 .85-.15 1.19-.4l-4.43-4.43c-.8.52-1.74.83-2.76.83-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5c0 1.02-.31 1.96-.83 2.75L20 19.59zM9 13c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3z" />
+                            </svg>
+                        </mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--fin de row-->
+            </mat-card-content>
+          </form>
+        </mat-card>
+
+        <h5>Listado de Ficha</h5>
+
+        <div *ngIf="filtroselect==='FichasdeClientes'">
+          <app-listafichacliente></app-listafichacliente>
+        </div>
+
+        <div *ngIf="filtroselect==='FichadeLlamadas'">
+          <app-listafichallamada></app-listafichallamada>
+        </div>
+
+        <div *ngIf="filtroselect===''">
+        </div>
+
+
+        <!--continue 11 10 2021-->
+
+        <!-- <div class="mat-elevation-z4">
+                    <h5>Listado de Ficha</h5>
+                    <table mat-table [dataSource]="dataSource" class="font-size-rows">-->
+
+        <!--ClienteID Column -->
+        <!--  <ng-container matColumnDef="clienteID">
+                            <th mat-header-cell *matHeaderCellDef>ClienteID</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.clienteID}}</td>
+                        </ng-container>-->
+
+        <!--Nombre del Cliente-->
+        <!--<ng-container matColumnDef="nombreCliente">
+                            <th mat-header-cell *matHeaderCellDef>Nombre Cliente</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.nombreCliente}}</td>
+                        </ng-container>-->
+
+        <!--Contacto-->
+        <!--<ng-container matColumnDef="contacto">
+                            <th mat-header-cell *matHeaderCellDef>Contacto</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.contacto}}</td>
+                        </ng-container>-->
+
+        <!--Nombre Identificación-->
+        <!--<ng-container matColumnDef="nombreIdentificacion">
+                            <th mat-header-cell *matHeaderCellDef>Identificación</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.nombreIdentificacion}}</td>
+                        </ng-container>-->
+
+        <!--Comentario Lider-->
+        <!--<ng-container matColumnDef="comentarioLider">
+                            <th mat-header-cell *matHeaderCellDef>Comentario Lider</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.comentarioLider}}</td>
+                        </ng-container>-->
+
+        <!--Fecha Creación-->
+        <!--<ng-container matColumnDef="fechaCreacion">
+                            <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.fechaCreacion}}</td>
+                        </ng-container>-->
+
+        <!--Nombre del Líder-->
+        <!--<ng-container matColumnDef="nombreLider">
+                            <th mat-header-cell *matHeaderCellDef>Nombre del lider</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.nombreLider}}</td>
+                        </ng-container>-->
+
+        <!--Nombre del Vendedor-->
+        <!--<ng-container matColumnDef="nombreVendedor">
+                            <th mat-header-cell *matHeaderCellDef>Nombre del Vendedor</th>
+                            <td mat-cell *matCellDef="let element" class="font-size-rows">{{element.nombreVendedor}}</td>
+                        </ng-container>-->
+
+        <!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row;  columns: displayedColumns;"></tr>
+
+                    </table>
+                    <mat-paginator style="box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+                </div>-->
+        <!--"mat-elevation-z4"-->
+
+      </div>
+      <!--fin box body-->
+    </div>
+    <!--fin de box-->
+  </div>
+  <!--fin de col-xs-12-->
+</div>
+<!--fin de row-->

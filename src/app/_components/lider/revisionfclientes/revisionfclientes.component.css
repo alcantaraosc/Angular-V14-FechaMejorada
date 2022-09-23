@@ -1,0 +1,14 @@
+table {
+    width: 100%;
+}
+
+.mat-header-cell {
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+h5 {
+    margin-top: 8px;
+    margin-left: 10px;
+    font-weight: bold;
+}
